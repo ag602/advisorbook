@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'core',
 ]
 
@@ -128,10 +129,10 @@ USE_TZ = True
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '/public/static')
+STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/public/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
 
 
 
@@ -151,8 +152,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
 from datetime import timedelta
 
 SIMPLE_JWT = {

@@ -1,21 +1,16 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth import login, logout
-from .models import CustomUser, Advisor
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import *
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from django.contrib.auth.models import update_last_login
 from rest_framework import generics
-from .serializers import MyTokenObtainPairSerializer, RegisterAdvisorSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework import serializers
+import json
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -75,17 +70,13 @@ class AdvisorRegisterView(generics.CreateAPIView):
         c = Advisor.objects.create(name=data.get('name'), photo_url=data.get('photo_url'))
         return Response ({"name":data.get('name'), "photo_url":data.get('photo_url'), "id":c.id})
 
-from django.http import JsonResponse
 
-class AdvisorListView(generics.RetrieveAPIView):
+class AdvisorListView(generics.ListAPIView):
     permission_classes = (AllowAny,)
+    serializer_class = AdvisorSerializer
+    queryset = Advisor.objects.all()
 
-    def get(self, *args, **kwargs):
-        advisor_set = Advisor.objects.all().values()
-        # print(advisor_set[0]['advisor'])
-        return Response(advisor_set, status=status.HTTP_200_OK )
 
-import json
 class AdvisorBookView(generics.CreateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
@@ -103,7 +94,7 @@ class BookedCallsView(generics.GenericAPIView):
     serializer_class = BookingListSerializer
 
     def get(self, request, *args, **kwargs):
-        files = Booking.objects.filter(user=kwargs.get('users_id')).values()
+        files = Booking.objects.filter(user=kwargs.get('pk')).values()
         data = []
 
         for item in files:

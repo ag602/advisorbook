@@ -29,33 +29,11 @@ from rest_framework_simplejwt.views import (
 )
 router = routers.DefaultRouter()
 
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Snippets API",
-      default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
+
 from core import urls
 urlpatterns = [
     path(r'^admin/', admin.site.urls),
     path('', include('core.urls')),
-    # path('', include(router.urls)),
-    # path('', include('core.urls')),
-    # # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # path('admin/', admin.site.urls),
-    # # path('', include(router.urls)),
-    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # path('auth/', include('djoser.urls')),
-    # path('auth/', include('djoser.urls.jwt')),
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 
 if settings.DEBUG:

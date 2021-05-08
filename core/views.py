@@ -18,7 +18,6 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 # Create your views here.
-import requests
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()

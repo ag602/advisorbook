@@ -45,11 +45,11 @@ router = routers.DefaultRouter()
 
 from core import urls
 urlpatterns = [
-    path(r'^admin/', admin.site.urls),
+    path(r'^admin', admin.site.urls),
     path('', include('core.urls')),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    url('api/api.json/', schema_view.without_ui(cache_timeout=0), name='schema-swagger-ui'),
-    url('swagger/', schema_view.with_ui('swagger',cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^api/api.json/$', schema_view.without_ui(cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^swagger/$', schema_view.with_ui('swagger',cache_timeout=0), name='schema-swagger-ui'),
 ]
 
 if settings.DEBUG:
